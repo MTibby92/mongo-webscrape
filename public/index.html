@@ -7,7 +7,7 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 	<nav>
@@ -27,20 +27,39 @@
 	<div id="welcome" class="parallax-container">
 		<div class="section">
 			<div class="container">
-				<div class="parallax"><img src="apple2.jpg"></div>
+				<div class="parallax"><img src="/img/apple2.jpg"></div>
 			</div>
 		</div>
 	</div>
 
 	<div class="container" id="article-container">
 		<div class="row">
-			<div class="teal col s7" id="article">
-				<p class="valign">S7 NewsFeed</p>
+			<div class="teal col s7 valign-wrapper" id="article-col">
+				<div class="card blue-grey darken-1 valign center-align" id="article-card">
+				    <div class="card-content white-text">
+				        <span class="card-title">Article Title</span>
+				        <p class="flow-text">This is where the article content would be placed</p>
+				    </div>
+				    <div class="card-action">
+				        <a href="#">Next Article</a>
+				        <a href="#">Previous Article</a>
+				    </div>
+				</div>
 			</div>
 			<div class="col s5" id="button-col">
 				<div class="row" id="noterow">
 					<div class="red col s12" id="note">
 						<p class="valign">S12 Button</p>
+						<div class="card horizontal">
+						    <div class="card-image" id="upload-div">
+						        <a href=""><img src="/img/basic-upload-icon.png" id="upload-icon"></a>
+						    </div>
+						    <div class="card-stacked">
+						        <div class="card-content">
+						            <p>I am a very simple card. I am good at containing small bits of information.</p>
+						        </div>
+						    </div>
+						</div>
 					</div>
 				</div>
 				<div class="row" id="removerow">
@@ -64,6 +83,8 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+	<script type="text/javascript" src="/js/app.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
