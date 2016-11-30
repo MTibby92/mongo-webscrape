@@ -27,12 +27,30 @@
 	<div id="welcome" class="parallax-container">
 		<div class="section">
 			<div class="container">
-				
+				<div class="parallax"><img src="apple2.jpg"></div>
 			</div>
 		</div>
 	</div>
 
-	<div id="articles" class="container"></div>
+	<div class="container" id="article-container">
+		<div class="row">
+			<div class="teal col s7" id="article">
+				<p class="valign">S7 NewsFeed</p>
+			</div>
+			<div class="col s5" id="button-col">
+				<div class="row" id="noterow">
+					<div class="red col s12" id="note">
+						<p class="valign">S12 Button</p>
+					</div>
+				</div>
+				<div class="row" id="removerow">
+					<div class="blue col s12" id="remove">
+						<p class="valign">S12 Button</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<footer class="page-footer">
 		<div class="footer-copyright">
@@ -46,5 +64,11 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.parallax').parallax();
+		});
+	</script>
 </body>
 </html>

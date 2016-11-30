@@ -2,6 +2,33 @@
 	height: 100vh;
 }
 
-#articles {
+#article-container {
 	height: 100vh;
+	padding-top: 10vh;
+}
+
+#article {
+	height: 80vh;
+}
+
+#note {
+	height: 40vh;
+	/*margin-bottom: 0vh;*/
+}
+
+#remove {
+	height:40vh;
+	/*margin-top: 0vh;*/
+}
+
+#noterow {
+	margin-bottom: 0vh;
+}
+
+#removerow {
+	margin-top: 0vh;
+}
+
+#button-col {
+	height: 80vh;
 }
