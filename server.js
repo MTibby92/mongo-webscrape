@@ -51,15 +51,13 @@ request('https://www.9to5mac.com', function(error, response, html) {
 
 	// An empty array to save the data that we'll scrape
 	var result = [];
-	var test = []
-	var testvar
+	var images = []
 
-	$('article.post-content').each(function(i, element) {
-		testvar = $(element).children().children('.elastic-container')
+	$('div.feat-image').each(function(i, element) {
+		var image = $(element).children()
 
-		// var link = title["0"].children[1].children["0"].attribs.href
-		console.log('this is the individual title\n', testvar)
-		test.push(testvar)
+		// console.log(image)
+		images.push(image["0"].firstChild.next.attribs.src)
 	})
 
 	// With cheerio, find each p-tag with the 'title' class
@@ -83,9 +81,9 @@ request('https://www.9to5mac.com', function(error, response, html) {
 	});
 
 	// Log the result once cheerio analyzes each of its selected elements
-	// console.log(result);
-	// console.log(test)
-	// console.log(test[2]["0"].children[1].children["0"].attribs.href)
+	console.log(result);
+	console.log(images)
+	
 });
 
 app.listen(3000, function() {
