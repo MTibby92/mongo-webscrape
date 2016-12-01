@@ -11,6 +11,10 @@
 	height: 80vh;
 }
 
+#article-content {
+	height: 89%;
+}
+
 #note {
 	height: 40vh;
 	/*margin-bottom: 0vh;*/
