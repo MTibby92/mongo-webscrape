@@ -81,8 +81,14 @@ request('https://www.9to5mac.com', function(error, response, html) {
 	});
 
 	// Log the result once cheerio analyzes each of its selected elements
-	console.log(result);
-	console.log(images)
+	// console.log(result);
+	// console.log(images)
+
+	for (obj in result) {
+		result[obj].image = images[obj]
+	}
+
+	console.log(result)
 	
 });
 
