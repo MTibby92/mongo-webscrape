@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MTibby92/mongo-webscrape#readme",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "cheerio": "^0.22.0",
     "express": "^4.14.0",

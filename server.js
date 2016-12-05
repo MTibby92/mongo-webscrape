@@ -1,12 +1,18 @@
 // Dependencies
 var express = require('express');
-var mongojs = require('mongojs');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+// Requiring our Note and Article models
+var Note = require('./models/Note.js');
+var Article = require('./models/Article.js');
 // Require request and cheerio. This makes the scraping possible
 var request = require('request');
 var cheerio = require('cheerio');
+// Mongoose mpromise deprecated - use bluebird promises
+var Promise = require('bluebird');
 
+mongoose.Promise = Promise;
 
 
 // Initialize Express
@@ -19,21 +25,32 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static('public'))
 
-// Database configuration
-// var databaseUrl = 'scraper';
-// var collections = ['scrapedData'];
 
-// Hook mongojs configuration to the db variabl
-// var db = mongojs(databaseUrl, collections);
-// db.on('error', function(error) {
-//   console.log('Database Error:', error);
-// });
+// Database configuration with mongoose
+mongoose.connect('mongodb://localhost/homework');
+var db = mongoose.connection;
+
+// Show any mongoose errors
+db.on('error', function(error) {
+  console.log('Mongoose Error: ', error);
+});
+
+// Once logged in to the db through mongoose, log a success message
+db.once('open', function() {
+  console.log('Mongoose connection successful.');
+});
 
 
 // Main route (simple Hello World Message)
 app.get('/', function(req, res) {
-	res.send('Hello world');
+	res.send('Hello World');
 });
+
+app.get('/scrape' , function(req, res) {
+	scrapeMultiplePages()
+	res.redirect('/')
+})
+
 
 // First, tell the console what server.js is doing
 console.log('\n***********************************\n' +
@@ -42,55 +59,43 @@ console.log('\n***********************************\n' +
 	'\n***********************************\n');
 
 
-// Making a request call for reddit's 'webdev' board. The page's HTML is saved as the callback's third argument
-request('https://www.9to5mac.com', function(error, response, html) {
+function scrapeMultiplePages() {
+	var arr = ['/', '/page/2', '/page/3', '/page/4', '/page/5']
+	// Making a request call for reddit's 'webdev' board. The page's HTML is saved as the callback's third argument
+	for (link in arr) {
+		var url = 'https://www.9to5mac.com' + arr[link]
+		request(url, function(error, response, html) {
 
-	// Load the HTML into cheerio and save it to a variable
-	// '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-	var $ = cheerio.load(html);
+			// Load the HTML into cheerio and save it to a variable
+			// '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
+			var $ = cheerio.load(html);			
 
-	// An empty array to save the data that we'll scrape
-	var result = [];
-	var images = []
+			// With cheerio, find each p-tag with the 'title' class
+			// (i: iterator. element: the current element)
+			$('h1.post-title').each(function(i, element) {
 
-	$('div.feat-image').each(function(i, element) {
-		var image = $(element).children()
+				var result = {}
 
-		// console.log(image)
-		images.push(image["0"].firstChild.next.attribs.src)
-	})
+				// Save the text of the element (this) in a 'title' variable
+				result.title = $(element).children().text();
+				console.log(result.title)
 
-	// With cheerio, find each p-tag with the 'title' class
-	// (i: iterator. element: the current element)
-	$('h1.post-title').each(function(i, element) {
+				// In the currently selected element, look at its child elements (i.e., its a-tags),
+				// then save the values for any 'href' attributes that the child elements may have
+				result.link = $(element).children().attr('href');
 
-		// Save the text of the element (this) in a 'title' variable
-		var title = $(element).children().text();
-		console.log(title)
-
-		// In the currently selected element, look at its child elements (i.e., its a-tags),
-		// then save the values for any 'href' attributes that the child elements may have
-		var link = $(element).children().attr('href');
-
-		// Save these results in an object that we'll push into the result array we defined earlier
-		result.push({
-			title: title,
-			link: link
+				Article.update({ link: result.link }, { $setOnInsert: result }, { upsert: true },
+					function(err, numAffected) {
+						if (err) {
+							throw err
+						}
+					}
+				);
+			});
+			
 		});
-
-	});
-
-	// Log the result once cheerio analyzes each of its selected elements
-	// console.log(result);
-	// console.log(images)
-
-	for (obj in result) {
-		result[obj].image = images[obj]
 	}
-
-	console.log(result)
-	
-});
+}
 
 app.listen(3000, function() {
 	console.log('App running on port 3000!');
