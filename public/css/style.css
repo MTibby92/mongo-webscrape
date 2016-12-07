@@ -39,7 +39,7 @@
 
 #article-card {
 	height: 90%;
-	margin: 0 3%;
+	margin: 0 auto;
 }
 
 #upload-div {
@@ -62,7 +62,7 @@
 
 #upload-note-card {
 	height: 75%;
-	margin: 0 auto;
+	margin: 0 3%;
 }
 
 #remove-div {
