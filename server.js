@@ -51,6 +51,19 @@ app.get('/scrape' , function(req, res) {
 	res.redirect('/')
 })
 
+app.get('/latest', function(req, res) {
+	// finds the latest document added to the database, IE the top document
+	Article.findOne({}, {}, {sort:{$natural:1}})
+	.populate("note")
+	.exec(function(err, doc) {
+		if (err) {
+			console.log(err)
+		} else {
+			res.json(doc)
+		}
+	})
+})
+
 
 // First, tell the console what server.js is doing
 console.log('\n***********************************\n' +
