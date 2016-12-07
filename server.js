@@ -64,8 +64,32 @@ app.get('/latest', function(req, res) {
 	})
 })
 
-app.get('/change/:id', function(req, res) {
-	Article.findOne({'_id': req.params.id})
+// app.get('/change/:id', function(req, res) {
+// 	Article.findOne({'_id': req.params.id})
+// 	.populate('note')
+// 	.exec(function(err, doc) {
+// 		if (err) {
+// 			console.log(err)
+// 		} else {
+// 			res.json(doc)
+// 		}
+// 	})
+// })
+
+app.get('/next/:id', function(req,res) {
+	Article.findOne({_id: {$gt: req.params.id}}, {}, {sort: {_id:1}})
+	.populate('note')
+	.exec(function(err, doc) {
+		if (err) {
+			console.log(err)
+		} else {
+			res.json(doc)
+		}
+	})
+})
+
+app.get('/previous/:id', function(req, res) {
+	Article.findOne({_id: {$lt: req.params.id}}, {}, {sort: {_id: -1}})
 	.populate('note')
 	.exec(function(err, doc) {
 		if (err) {
