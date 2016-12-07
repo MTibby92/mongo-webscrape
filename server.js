@@ -102,6 +102,8 @@ app.get('/previous/:id', function(req, res) {
 })
 
 
+
+
 // First, tell the console what server.js is doing
 console.log('\n***********************************\n' +
 	'Grabbing every article name and link\n' +
