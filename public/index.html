@@ -35,13 +35,14 @@
 			<div class="teal col s7 valign-wrapper" id="article-col">
 				<div class="card blue-grey darken-1 valign center-align" id="article-card">
 				    <div class="card-content white-text" id="article-content">
-				        <span class="card-title">Article Title</span>
+				        <span class="card-title" id="data-title">Article Title</span>
 				        <div class="divider"></div>
-				        <p class="flow-text">This is where the article content would be placed</p>
+				        <p class="flow-text" id="data-header">This is where the article content would be placed</p>
+				        <p class="flow-text" id="data-link">This is where the link will go</p>
 				    </div>
 				    <div class="card-action">
-				        <a href="#/" class="waves-effect" id="next-article">Previous Article</a>
-				        <a href="#/" class="waves-effect" id="previous-article">Next Article</a>
+				        <a href="#/" class="waves-effect btn disabled" id="previous-article" data-db-id ="">Previous Article</a>
+				        <a href="#/" class="waves-effect btn" id="next-article" data-db-id="">Next Article</a>
 				    </div>
 				</div>
 			</div>

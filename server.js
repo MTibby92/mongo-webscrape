@@ -51,30 +51,31 @@ app.get('/scrape' , function(req, res) {
 	res.redirect('/')
 })
 
-app.get('/latest', function(req, res) {
-	// finds the latest document added to the database, IE the top document
-	Article.findOne({}, {}, {sort:{$natural:1}})
-	.populate('note')
-	.exec(function(err, doc) {
-		if (err) {
-			console.log(err)
-		} else {
-			res.json(doc)
-		}
-	})
+app.get('/latest/:id?', function(req, res) {
+	if (!req.params.id) {
+		// finds the latest document added to the database, IE the top document
+		Article.findOne({}, {}, {sort:{$natural:1}})
+		.populate('note')
+		.exec(function(err, doc) {
+			if (err) {
+				console.log(err)
+			} else {
+				res.json(doc)
+			}
+		})
+	}else {
+		Article.findOne({'_id': req.params.id})
+		.populate('note')
+		.exec(function(err, doc) {
+			if (err) {
+				console.log(err)
+			} else {
+				res.json(doc)
+			}
+		})
+	}
+		
 })
-
-// app.get('/change/:id', function(req, res) {
-// 	Article.findOne({'_id': req.params.id})
-// 	.populate('note')
-// 	.exec(function(err, doc) {
-// 		if (err) {
-// 			console.log(err)
-// 		} else {
-// 			res.json(doc)
-// 		}
-// 	})
-// })
 
 app.get('/next/:id', function(req,res) {
 	Article.findOne({_id: {$gt: req.params.id}}, {}, {sort: {_id:1}})
