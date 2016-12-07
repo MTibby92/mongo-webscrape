@@ -21,7 +21,7 @@ var ArticleSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Note"
   }
-});
+}, {timestamps: true});
 
 // Create the Article model with the ArticleSchema
 var Article = mongoose.model("Article", ArticleSchema);
