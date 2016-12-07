@@ -54,7 +54,19 @@ app.get('/scrape' , function(req, res) {
 app.get('/latest', function(req, res) {
 	// finds the latest document added to the database, IE the top document
 	Article.findOne({}, {}, {sort:{$natural:1}})
-	.populate("note")
+	.populate('note')
+	.exec(function(err, doc) {
+		if (err) {
+			console.log(err)
+		} else {
+			res.json(doc)
+		}
+	})
+})
+
+app.get('/change/:id', function(req, res) {
+	Article.findOne({'_id': req.params.id})
+	.populate('note')
 	.exec(function(err, doc) {
 		if (err) {
 			console.log(err)
