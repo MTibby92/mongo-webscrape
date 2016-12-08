@@ -9,8 +9,9 @@ $( document ).ready(function() {
             $('#data-header').text(data.title)
             $('#data-header').attr('data-db-id', data._id)
             $('#data-link').text(data.link)
-            if (data.note !== null) {
+            if (data.note !== undefined) {
                 $('#display-saved-note').text(data.note.body)
+                $('#display-saved-note').attr('data-note-id', data.note._id)
             }
         }).done(function(response) {
             getNext(response)
@@ -25,8 +26,9 @@ $( document ).ready(function() {
             $('#data-header').text(data.title)
             $('#data-header').attr('data-db-id', data._id)
             $('#data-link').text(data.link)
-            if (data.note !== null) {
+            if (data.note !== undefined) {
                 $('#display-saved-note').text(data.note.body)
+                $('#display-saved-note').attr('data-note-id', data.note._id)
             }  
         }).done(function(response) {
             getNext(response)
@@ -67,13 +69,27 @@ $( document ).ready(function() {
         var dbID = $('#data-header').attr('data-db-id')
         $.post('/addNote/' + dbID, {body: $('#note-area').val()})
         .done(function(data) {
-            console.log(data)
+            // console.log(data)
             $('#note-area').val('')
+            var id = $('#data-header').attr('data-db-id')
+            console.log(id)
+            $.getJSON('/latest/' + id, function(data2) {
+                console.log(data2)
+                $('#display-saved-note').text(data2.note.body)
+                $('#display-saved-note').attr('data-note-id', data2.note._id)
+            })
         })
     })
 
     $('#remove-icon').on('click', function(event) {
     	console.log('remove clicked')
+        var noteID = $('#display-saved-note').attr('data-note-id') 
+        $.post('/deleteNote/' + noteID)
+        .done(function(data) {
+            $('#display-saved-note').text('This is where a note would be')
+            console.log(data)
+            console.log('Deletion Complete')
+        })       
     })
 
     $('#next-article').on('click', function(event) {

@@ -120,6 +120,17 @@ app.post('/addNote/:id', function(req, res) {
 	})
 })
 
+app.post('/deleteNote/:id', function(req, res) {
+	Note.findOne({_id: req.params.id}, function(err, note) {
+		if(err) {
+			console.log(err)
+		} else {
+			note.remove()
+			res.send(note)
+		}
+	})
+})
+
 
 
 // First, tell the console what server.js is doing

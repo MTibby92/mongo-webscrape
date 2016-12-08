@@ -1,7 +1,7 @@
 // Require mongoose
-var mongoose = require("mongoose");
+var mongoose = require('mongoose')
 // Create a schema class
-var Schema = mongoose.Schema;
+var Schema = mongoose.Schema
 
 // Create the Note schema
 var NoteSchema = new Schema({
@@ -9,13 +9,18 @@ var NoteSchema = new Schema({
   body: {
     type: String
   },
-}, {timestamps: true});
+}, {timestamps: true})
+
+NoteSchema.pre('remove', function(next) {
+    // Remove all the assignment docs that reference the removed person.
+    this.model('Article').remove({ note: this._id }, next)
+});
 
 // Remember, Mongoose will automatically save the ObjectIds of the notes
 // These ids are referred to in the Article model
 
 // Create the Note model with the NoteSchema
-var Note = mongoose.model("Note", NoteSchema);
+var Note = mongoose.model('Note', NoteSchema)
 
 // Export the Note model
-module.exports = Note;
+module.exports = Note
