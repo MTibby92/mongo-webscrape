@@ -54,7 +54,7 @@ app.get('/scrape' , function(req, res) {
 app.get('/latest/:id?', function(req, res) {
 	if (!req.params.id) {
 		// finds the latest document added to the database, IE the top document
-		Article.findOne({}, {}, {sort:{$natural:1}}) 
+		Article.findOne({}, {}, {sort:{websitePublishedDate:-1}}) // previously {sort:{$natural:1}}
 		.populate('note')
 		.exec(function(err, doc) {
 			if (err) {
@@ -77,8 +77,9 @@ app.get('/latest/:id?', function(req, res) {
 		
 })
 
-app.get('/next/:id', function(req,res) { 
-	Article.findOne({_id: {$gt: req.params.id}}, {}, {sort: {_id:1}})
+app.get('/next/:date', function(req,res) { // previously :id
+	// Article.findOne({_id: {$gt: req.params.id}}, {}, {sort: {_id:1}})
+	Article.findOne({websitePublishedDate: {$lt: req.params.date}}, {}, {sort: {websitePublishedDate: -1}})
 	.populate('note')
 	.exec(function(err, doc) {
 		if (err) {
@@ -89,8 +90,9 @@ app.get('/next/:id', function(req,res) {
 	})
 })
 
-app.get('/previous/:id', function(req, res) {
-	Article.findOne({_id: {$lt: req.params.id}}, {}, {sort: {_id: -1}})
+app.get('/previous/:date', function(req, res) { // previously id
+	// Article.findOne({_id: {$lt: req.params.id}}, {}, {sort: {_id: -1}})
+	Article.findOne({websitePublishedDate: {$gt: req.params.date}}, {}, {sort: {websitePublishedDate: 1}})
 	.populate('note')
 	.exec(function(err, doc) {
 		if (err) {
@@ -164,6 +166,10 @@ function scrapeMultiplePages() {
 				// In the currently selected element, look at its child elements (i.e., its a-tags),
 				// then save the values for any 'href' attributes that the child elements may have
 				result.link = $(element).children().attr('href');
+
+				result.websitePublishedDate = $(element).next().children('meta').first().attr('content')
+				// [0].nextElementSibling.children[7].content
+				console.log(result.websitePublishedDate)
 
 				Article.update({ link: result.link }, { $setOnInsert: result }, { upsert: true },
 					function(err, numAffected) {
