@@ -54,7 +54,7 @@ app.get('/scrape' , function(req, res) {
 app.get('/latest/:id?', function(req, res) {
 	if (!req.params.id) {
 		// finds the latest document added to the database, IE the top document
-		Article.findOne({}, {}, {sort:{createdAt:1}}) //previously {sort:{$natural:1}}
+		Article.findOne({}, {}, {sort:{$natural:1}}) 
 		.populate('note')
 		.exec(function(err, doc) {
 			if (err) {
@@ -77,9 +77,8 @@ app.get('/latest/:id?', function(req, res) {
 		
 })
 
-app.get('/next/:date', function(req,res) { // formerly :id
-	// Article.findOne({_id: {$gt: req.params.id}}, {}, {sort: {_id:1}})
-	Article.findOne({createdAt: {$gt: req.params.date}}, {}, {sort: {createdAt:1}})
+app.get('/next/:id', function(req,res) { 
+	Article.findOne({_id: {$gt: req.params.id}}, {}, {sort: {_id:1}})
 	.populate('note')
 	.exec(function(err, doc) {
 		if (err) {
@@ -90,9 +89,8 @@ app.get('/next/:date', function(req,res) { // formerly :id
 	})
 })
 
-app.get('/previous/:date', function(req, res) { // formerly :id
-	// Article.findOne({_id: {$lt: req.params.id}}, {}, {sort: {_id: -1}})
-	Article.findOne({createdAt: {$lt: req.params.date}}, {}, {sort: {createdAt: -1}})
+app.get('/previous/:id', function(req, res) {
+	Article.findOne({_id: {$lt: req.params.id}}, {}, {sort: {_id: -1}})
 	.populate('note')
 	.exec(function(err, doc) {
 		if (err) {

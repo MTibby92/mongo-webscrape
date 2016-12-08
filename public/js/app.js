@@ -43,8 +43,7 @@ $( document ).ready(function() {
     }
 
     function getNext(data) {
-        // $.getJSON('/next/' + data._id, function(data2) {
-        $.getJSON('/next/' + data.createdAt, function(data2) {
+        $.getJSON('/next/' + data._id, function(data2) {
             console.log('This is getNext data')
             console.log(data2)
             if (data2 !== null) {
@@ -57,8 +56,7 @@ $( document ).ready(function() {
     }
 
     function getPrevious(data) {
-        // $.getJSON('/previous/' + data._id, function(data2) {
-        $.getJSON('/previous/' + data.createdAt, function(data2) {
+        $.getJSON('/previous/' + data._id, function(data2) {
             console.log('This is getPrevious')
             console.log(data2)
             if (data2 !== null) {
