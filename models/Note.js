@@ -13,7 +13,7 @@ var NoteSchema = new Schema({
 
 NoteSchema.pre('remove', function(next) {
     // Remove all the assignment docs that reference the removed person.
-    this.model('Article').remove({ note: this._id }, next)
+    this.model('Article').update({ note: this._id }, {$unset: {note:1}}, next)
 });
 
 // Remember, Mongoose will automatically save the ObjectIds of the notes
