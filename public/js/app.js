@@ -12,6 +12,9 @@ $( document ).ready(function() {
             if (data.note !== undefined) {
                 $('#display-saved-note').text(data.note.body)
                 $('#display-saved-note').attr('data-note-id', data.note._id)
+            } else {
+                $('#display-saved-note').text('This is where a note would be')
+                $('#display-saved-note').attr('data-note-id', '')
             }
         }).done(function(response) {
             getNext(response)
@@ -29,7 +32,10 @@ $( document ).ready(function() {
             if (data.note !== undefined) {
                 $('#display-saved-note').text(data.note.body)
                 $('#display-saved-note').attr('data-note-id', data.note._id)
-            }  
+            } else {
+                $('#display-saved-note').text('This is where a note would be')
+                $('#display-saved-note').attr('data-note-id', '')
+            } 
         }).done(function(response) {
             getNext(response)
             getPrevious(response)
