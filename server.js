@@ -101,6 +101,24 @@ app.get('/previous/:id', function(req, res) {
 	})
 })
 
+app.post('/addNote/:id', function(req, res) {
+	// Create a new note and pass the req.body to the entry
+	var newNote = new Note(req.body);
+	newNote.save(function(error, doc) {
+		if (error) {
+			console.log(error);
+		} else {
+			Article.findOneAndUpdate({ '_id': req.params.id }, { 'note': doc._id })
+				.exec(function(err, doc) {
+					if (err) {
+						console.log(err)
+					} else {
+						res.send(doc)
+					}
+				})
+		}
+	})
+})
 
 
 

@@ -7,8 +7,11 @@ $( document ).ready(function() {
             console.log(data)
             $('#data-title').text('Article ' + counter)
             $('#data-header').text(data.title)
+            $('#data-header').attr('data-db-id', data._id)
             $('#data-link').text(data.link)
-            // counter++  
+            if (data.note !== null) {
+                $('#display-saved-note').text(data.note.body)
+            }
         }).done(function(response) {
             getNext(response)
             getPrevious(response)
@@ -20,8 +23,11 @@ $( document ).ready(function() {
             console.log(data)
             $('#data-title').text('Article ' + counter)
             $('#data-header').text(data.title)
+            $('#data-header').attr('data-db-id', data._id)
             $('#data-link').text(data.link)
-            // counter++  
+            if (data.note !== null) {
+                $('#display-saved-note').text(data.note.body)
+            }  
         }).done(function(response) {
             getNext(response)
             getPrevious(response)
@@ -34,6 +40,7 @@ $( document ).ready(function() {
             console.log(data2)
             if (data2 !== null) {
                 $('#next-article').attr('data-db-id', data2._id)
+                $('#next-article').removeClass('disabled')
             } else {
                 $('#next-article').addClass('disabled')
             }
@@ -57,6 +64,12 @@ $( document ).ready(function() {
 
     $('#upload-icon').on('click', function(event) {
     	console.log('upload clicked')
+        var dbID = $('#data-header').attr('data-db-id')
+        $.post('/addNote/' + dbID, {body: $('#note-area').val()})
+        .done(function(data) {
+            console.log(data)
+            $('#note-area').val('')
+        })
     })
 
     $('#remove-icon').on('click', function(event) {
