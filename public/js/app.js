@@ -43,7 +43,8 @@ $( document ).ready(function() {
     }
 
     function getNext(data) {
-        $.getJSON('/next/' + data._id, function(data2) {
+        // $.getJSON('/next/' + data._id, function(data2) {
+        $.getJSON('/next/' + data.createdAt, function(data2) {
             console.log('This is getNext data')
             console.log(data2)
             if (data2 !== null) {
@@ -56,7 +57,8 @@ $( document ).ready(function() {
     }
 
     function getPrevious(data) {
-        $.getJSON('/previous/' + data._id, function(data2) {
+        // $.getJSON('/previous/' + data._id, function(data2) {
+        $.getJSON('/previous/' + data.createdAt, function(data2) {
             console.log('This is getPrevious')
             console.log(data2)
             if (data2 !== null) {
@@ -101,35 +103,6 @@ $( document ).ready(function() {
             })
         }    
     })
-
-// Experimental Code Block; error appears to be with the server side deletion script
-    // $('#upload-icon').on('click', function(event) {
-    //     console.log('upload clicked')
-    //     var dbID = $('#data-header').attr('data-db-id')
-    //     console.log(dbID)
-    //     console.log($('#note-area').val())
-    //     $.post('/addNote/' + dbID, {body: $('#note-area').val()})
-    //     .done(function(data) {
-    //         console.log(data)
-    //         console.log('post complete')
-    //         $('#note-area').val('')
-    //         var id = $('#data-header').attr('data-db-id')
-    //         console.log(id)
-    //         return(data)
-    //     })
-    //     .fail(function(err) {
-    //         console.log(err)
-    //     }).then(
-    //     $.getJSON('/latest/' + $('#data-header').attr('data-db-id'))
-    //         .done(function(data2) {
-    //             console.log(data2)
-    //             $('#display-saved-note').text(data2.note.body)
-    //             $('#display-saved-note').attr('data-note-id', data2.note._id)
-    //         })
-    //         .fail(function(err) {
-    //             console.log(err)
-    //     }))
-    // })
 
     $('#remove-icon').on('click', function(event) {
     	console.log('remove clicked')
