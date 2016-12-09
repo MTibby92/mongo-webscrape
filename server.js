@@ -18,6 +18,8 @@ mongoose.Promise = Promise;
 // Initialize Express
 var app = express();
 
+var port = process.env.port || 3000
+
 // Set the app up with morgan, body-parser, and a static folder
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
@@ -189,6 +191,6 @@ function scrapeMultiplePages() {
 	}
 }
 
-app.listen(3000, function() {
+app.listen(port, function() {
 	console.log('App running on port 3000!');
 });
